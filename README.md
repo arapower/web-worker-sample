@@ -8,3 +8,7 @@ docker build -t web-worker-sample . && docker run -it --rm --name web-worker-app
 # Visit http://localhost:8080 and you will see It works.
 ```
 
+# Samples
+
+- `/index.html`
+- `/fetch.html`

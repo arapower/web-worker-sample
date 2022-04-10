@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+  <meta charset="utf-8">
+</head>
+ 
+<body>
+
+  <form>
+    <input id="fetch-invest" type="text" size="10" value=10 />
+    <input id="fetch-start" type="button" value="取得" />
+    <input id="fetch-stop" type="button" value="停止" />
+  </form>
+  <ul id="fetch-display"></ul>
+ 
+  <script>
+
+    let display = document.getElementById('fetch-display');
+    let fetchWorker = new Worker('./js/fetch-worker.js');
+ 
+    document.getElementById('fetch-start').addEventListener('click', () => {
+      let numImages = document.getElementById('fetch-invest').value
+        for(i=1; i<=numImages; i++){
+          fetchWorker.postMessage({
+            invest: document.getElementById('fetch-invest').value,
+          });
+        }
+    });
+ 
+    fetchWorker.addEventListener('message', (e) => {
+      var foxImage = document.createElement('img');
+      foxImage.src = e.data;
+      display.appendChild(foxImage);
+
+    }, false);
+ 
+    document.getElementById('fetch-stop').addEventListener('click', () => {
+      fetchWorker.terminate();
+      result.textContent = '<停止>';
+    });
+ 
+    fetchWorker.addEventListener('error', (e) => {
+      console.error('webWorkerError: ' + e.message);
+    }, false)
+ 
+  </script>
+ 
+</body>
+ 
+</html>
